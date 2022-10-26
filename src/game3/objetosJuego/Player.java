@@ -72,7 +72,8 @@ public class Player extends MovedObject{
                 visible=!visible;
             }
         }
-        if(Teclado3.disparar && !cronometro.isRunning() && !aparece){
+        //&& !aparece
+        if(Teclado3.disparar && !cronometro.isRunning() ){
             estadoJuego.getListObjetosMovibles().add(0,new Bala(
                     getCenter().add(heading.scale(width)),heading,Constante.LASER_VEL,angulo,Assets.bala1,
         estadoJuego));
@@ -145,9 +146,16 @@ public class Player extends MovedObject{
         //si est destruido aparece sera true
         aparece=true;
         tiempoDReaparecer.run(Constante.TIEMPO_R_APARECER);
+       
         restaurarValores();
         estadoJuego.quitarVida();
                 
+    }
+    
+    public void notDestruir(){
+         aparece=true;
+        tiempoDReaparecer.run(Constante.TIEMPO_R_APARECER);
+        restaurarValores();
     }
 
     public boolean isAparece() {

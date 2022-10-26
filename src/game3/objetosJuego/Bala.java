@@ -38,6 +38,7 @@ public class Bala extends MovedObject {
     @Override
     public void draw(Graphics g) {
         
+        
         Graphics2D g2d = (Graphics2D)g;
 		
 		at = AffineTransform.getTranslateInstance(posicion.getX() - width/2, posicion.getY());
@@ -45,6 +46,22 @@ public class Bala extends MovedObject {
 		at.rotate(angulo, width/2, 0);
 		
 		g2d.drawImage(textura, at, null);
+                
+                if(estadoJuego.getScore()>10){
+                    at = AffineTransform.getTranslateInstance(posicion.getX()+width/2,posicion.getY());
+		
+		at.rotate(angulo, width/2, 0);
+		
+		g2d.drawImage(textura, at, null);
+                    
+                }
+                if(estadoJuego.getScore()>20){
+                at = AffineTransform.getTranslateInstance(posicion.getX()-width,posicion.getY());
+		
+		at.rotate(angulo, width/2, 0);
+		
+		g2d.drawImage(textura, at, null);
+                }
         
     }
     

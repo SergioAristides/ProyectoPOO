@@ -83,7 +83,9 @@ colisión();
        // return new Vector2D(posicion.getX(),posicion.getY()); 
        //retorna por decirlo asi las dimenciones en completo  de la imagen por que
        //posicion seria una posicion en x normal pero mas el radio nos dario todo su tamaño
-        return new Vector2D(posicion.getX()+width/2,posicion.getY()+height/2); 
+       return new Vector2D(posicion.getX()+width/2,posicion.getY()+height/2); 
+        //return new Vector2D(posicion.getX(),posicion.getY()); 
+        
         
     }
      /*

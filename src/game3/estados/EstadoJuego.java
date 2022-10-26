@@ -10,6 +10,7 @@ import game3.objetosJuego.Player;
 import game3.utilidades.Animacion;
 import game3.utilidades.Assets;
 import game3.utilidades.Constante;
+import game3.utilidades.Cronometro;
 import game3.utilidades.Sonido;
 import game3.utilidades.Vector2D;
 import java.awt.Graphics;
@@ -36,6 +37,8 @@ public class EstadoJuego {
     private int score=0;
     private int vidas=3;
     
+    
+   
     Sonido sonido;
     
     public EstadoJuego() {
@@ -46,6 +49,7 @@ public class EstadoJuego {
         sonido= new Sonido(Assets.musicaFondo);
         sonido.FondoMusica();
         sonido.manejaVolumen(-30f);
+
     }
      
     
@@ -58,13 +62,6 @@ public class EstadoJuego {
            JOptionPane.showMessageDialog(null,"Game Over");
        }
     }
-//    public void quitarVida(int value){
-//        if(vidas!=0){
-//        vidas+=-value;
-//    }else{
-//            JOptionPane.showMessageDialog(null,"has perdido");
-//        }
-//    }
 //    
     //dibuja las vidas en una posicion especifica y valida que no restemos a la vida del jugador mas de lo deseado
     //se llama en el draw del estado del juego
@@ -129,6 +126,7 @@ public class EstadoJuego {
         score+=value;
     }
     private void startMetoros(){
+        int cont=0;
         double x,y;
         for (int i = 0; i < cantidadMeteorosOleada; i++) {
             
@@ -151,7 +149,13 @@ public class EstadoJuego {
             
         }
         
-        cantidadMeteorosOleada++;
+        //cantidadMeteorosOleada++;
+        
+        //player.notDestruir();
+        
+        
+        
+      
         
     }
     
@@ -228,6 +232,14 @@ public class EstadoJuego {
 
     public void setListObjetosMovibles(ArrayList<MovedObject> listObjetosMovibles) {
         this.listObjetosMovibles = listObjetosMovibles;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     
