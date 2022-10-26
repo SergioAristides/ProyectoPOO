@@ -51,13 +51,9 @@ public class Vector2D {
         
     }
     
-    public Vector2D normalize(){
-        return new Vector2D(x/MagnitudVector(),y/MagnitudVector());
-        
-    }
-    
     //vector por un escalar esto servira para modificar la magnitud del vector
-    //direccion (heading)
+    //direccion de diferentes objetos movibles
+    //direccion (heading) 
     public Vector2D scale(double value){
         return new Vector2D(x*value,y*value);
         
@@ -80,6 +76,7 @@ public class Vector2D {
     /*
     param= angle
     return el valor de x y el valor de y
+    nos muestra el valor de x y y dependiendo del angulo
     */
     public Vector2D setDirection(double angle){
         double magnitud=MagnitudVector();

@@ -4,10 +4,9 @@
  */
 package Frames;
 
-import game3.estados.Estado;
+
 import game3.estados.Teclado3;
 import game3.estados.EstadoJuego;
-import game3.estados.Mouse;
 import game3.utilidades.Assets;
 import game3.utilidades.Constante;
 import game3.utilidades.Sonido;
@@ -25,10 +24,14 @@ import javax.swing.JFrame;
 
 public class WindowGame3 extends JFrame implements Runnable{
     
+        //dimenciones de la ventana
         public static final int WIDTH = 1000, HEIGHT = 600;
+        //canvas tiene menos funcionalidades que un JPanel lo cual representa una 
+        //menor carga para el programa
 	private Canvas canvas;
+        //atributo thread
 	private Thread thread;
-	private boolean isRunning = false;
+	private boolean isRunning = true;
 	
         //objetos para dibujar
 	private BufferStrategy bs;
@@ -44,8 +47,14 @@ public class WindowGame3 extends JFrame implements Runnable{
 	private int AVERAGEFPS = FPS;
         
        // EstadoJuego estadoJuego;
+        EstadoJuego estadoJuego;
         Teclado3 teclado;
-	Mouse mouse;
+        
+        
+       
+        
+        
+        private boolean bandera=true;
         
         //inicializadr del frame
 	public WindowGame3()
@@ -58,7 +67,6 @@ public class WindowGame3 extends JFrame implements Runnable{
 		
 		canvas = new Canvas();
 		teclado= new Teclado3();
-                mouse= new Mouse();
                 System.out.println(Constante.WIDTH);
 		canvas.setPreferredSize(new Dimension(Constante.WIDTH, Constante.HEIGHT));
 		canvas.setMaximumSize(new Dimension(Constante.WIDTH, Constante.HEIGHT));
@@ -68,11 +76,44 @@ public class WindowGame3 extends JFrame implements Runnable{
                 //agregar el canvas al Jframe para trabajar sobre el
 		add(canvas);
                 canvas.addKeyListener(teclado);
-                canvas.addMouseListener(mouse);
                 setVisible(true);
 		
 	}
 	
+        
+        
+  
+       
+       public void pausar(){
+          
+       if(Teclado3.pausar){    
+           while(bandera){
+               
+               if(Teclado3.seguir){
+                   
+                bandera=false;
+               }
+               
+           }
+       }
+          
+       }
+       
+//       public void pausar(){
+//           if(Teclado3.pausar){
+//               stop();
+//           } else if(Teclado3.seguir){
+//                       start();
+//                       }   
+//               
+//           }
+       
+           
+       
+       public  void reiniciar(){
+           stop();
+           
+       }
 	
         //ejecutable de la ventana
 	public static void main(String[] args) {
@@ -84,8 +125,8 @@ public class WindowGame3 extends JFrame implements Runnable{
 	private void update(){
             teclado.update();
             
-            Estado.getEstado().update();
-            //estadoJuego.update();
+            //Estado.getEstado().update();
+            estadoJuego.update();
 	}
         
         //dibuja los primeros componenentes del juego
@@ -98,25 +139,18 @@ public class WindowGame3 extends JFrame implements Runnable{
 			canvas.createBufferStrategy(3);
 			return;
 		}
-		
+                // Obtenga un nuevo contexto de gráficos cada vez que pase por el ciclo
+              // para asegurarse de que la estrategia esté validada
 		g = bs.getDrawGraphics();
-		
-		//dibujar
-                //g.clearRect(0, 0, WIDTH, HEIGHT);
-                
                 g.setColor(new Color(9,2,60));
                 g.fillRect(0, 0, WIDTH, HEIGHT);
                 g.setColor(Color.red);
-                //estadoJuego.draw(g);
-                Estado.getEstado().draw(g);
+                estadoJuego.draw(g);
+                //DIBUJA LOS FPS
                 g.drawString(""+AVERAGEFPS, 10,10);
-		
-		//g.setColor(Color.BLACK);
-		
-		//g.drawString(""+AVERAGEFPS, 10, 20);
-		
 		//---------------------
-		g.dispose();
+		//g.dispose();
+                //// Muestra el buffer
 		bs.show();
 	}
 	
@@ -133,6 +167,7 @@ public class WindowGame3 extends JFrame implements Runnable{
             long time=0;
             init();
 		while(isRunning){
+                    pausar();
                     now=System.nanoTime();
                     //tiempo que ha pasado
                     delta+=(now-lasTime)/TARGETTIME;
@@ -160,8 +195,8 @@ public class WindowGame3 extends JFrame implements Runnable{
         //inicaliza algunas que no estan en el thread
         public void init(){
             Assets.init();
-            Estado.setEstado(new EstadoJuego());
-           // estadoJuego= new EstadoJuego();
+           // Estado.setEstado(new EstadoJuego());
+           estadoJuego= new EstadoJuego();
         }
 	private void start(){
 		

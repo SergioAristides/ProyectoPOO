@@ -58,14 +58,22 @@ colisión();
     */
     //se llama en el update del jugador al final
     protected void conColicion(){
+        MovedObject m;
+        //Referecia al arreglo de objetos movibles de estadoJuego
         ArrayList<MovedObject> objetosMovibles=estadoJuego.getListObjetosMovibles();
         for (int i = 0; i < objetosMovibles.size(); i++) {
-            MovedObject m=objetosMovibles.get(i);
+                 m=objetosMovibles.get(i);
+            //asegurar de no comprobar colicion con migo mismo
             if(m.equals(this)){
                 continue;
             }
+            
+            //el restar.getcenter()--> vendria siendo el de el objeto que esta intentando colisionar
             double distancia=m.getCenter().restar(getCenter()).MagnitudVector();
-            if(distancia<m.width/2 && objetosMovibles.contains(this)){
+            // verifico si la distancia es menor al radio del el objeto en el arreglo con el radio de el objeto
+            //movible donde se este llamando
+            //contains hace referencia a que ese objeto este en arreglo ya pudo haber sido eliminado
+            if(distancia<m.width/2 +width/2 && objetosMovibles.contains(this)){
                 colisionObjeto(m,this);
             }
         }
@@ -73,21 +81,22 @@ colisión();
     }
      protected   Vector2D getCenter(){
        // return new Vector2D(posicion.getX(),posicion.getY()); 
+       //retorna por decirlo asi las dimenciones en completo  de la imagen por que
+       //posicion seria una posicion en x normal pero mas el radio nos dario todo su tamaño
         return new Vector2D(posicion.getX()+width/2,posicion.getY()+height/2); 
         
     }
-     //maneja que deberia hacer en caso de que el objeto colisione
+     /*
+     1-->verificamos que tanto a y b no sean meteoros ya que pueden colisionar entre ellos
+     2-->si no es por que alguno de los dos no son meteoros por ende debe haber una colicion
+     tanto bala meteoro o nave meteoro
+     */
     private void colisionObjeto(MovedObject a,MovedObject b){
         if(!(a instanceof Meteoro && b instanceof Meteoro)){
 //            if(a instanceof Player || b instanceof Player){
 //                estadoJuego.quitarVida(1);
 //            }
-              if(a instanceof Player && ((Player)a).isAparece()){
-                return;
-            }
-              if(b instanceof Player && ((Player)b).isAparece()){
-                return;
-            }
+
             estadoJuego.empezarExplosion(getCenter());
             a.destruir();
             b.destruir();
@@ -95,13 +104,15 @@ colisión();
         
         
     }
-     //elimiba el objeto del arreglo al ver que la distancia es menor a la magnitud de la resta de los vectores
+     //1--->elimiba el objeto movible que coliciono
+    //2---->pero verifica que el objeto se diferente a un jugador
+    //---> y si no es una instancia de bala es por que es un meteoro y debe hacer sonido
      protected void destruir(){
-         
+         if(!(this instanceof Player)){
          estadoJuego.getListObjetosMovibles().remove(this);
          if(!(this instanceof Bala)){
              sonido.play();
          }
      }
-    
+     }
 }

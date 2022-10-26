@@ -15,6 +15,7 @@ import game3.utilidades.Vector2D;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Window;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -27,7 +28,7 @@ import javax.swing.JOptionPane;
 /*
 dibuja y actualiza el estado del juego
 */
-public class EstadoJuego extends Estado{
+public class EstadoJuego {
     Player player;
     private ArrayList<MovedObject>listObjetosMovibles= new ArrayList<>();
     private ArrayList<Animacion>listExplociones= new ArrayList<>();
@@ -41,7 +42,7 @@ public class EstadoJuego extends Estado{
         //valores inicales del jugador
         player= new Player(new Vector2D(100,500),new Vector2D(),Constante.PLAYER_MAX_VEL, Assets.player,this );
         listObjetosMovibles.add(player);
-        cantidadMeteorosOleada=2;
+        cantidadMeteorosOleada=1;
         sonido= new Sonido(Assets.musicaFondo);
         sonido.FondoMusica();
         sonido.manejaVolumen(-30f);
@@ -51,7 +52,11 @@ public class EstadoJuego extends Estado{
     //se llama en moved object
     //se llama en el destruir player
     public void quitarVida(){
+       if(vidas !=0){
         vidas--;
+       }else{
+           JOptionPane.showMessageDialog(null,"Game Over");
+       }
     }
 //    public void quitarVida(int value){
 //        if(vidas!=0){
@@ -126,9 +131,6 @@ public class EstadoJuego extends Estado{
     private void startMetoros(){
         double x,y;
         for (int i = 0; i < cantidadMeteorosOleada; i++) {
-            System.out.println("----------------------------------------");
-            System.out.println(i);
-            System.out.println("----------------------------------------");
             
             //math.random devuelve= un nuero mayor a 0.0 y menor a 1.0
             //SI i es par  x sera igual a un numero aleaotorio entre sero y el ancho de la ventana si no cero
@@ -138,6 +140,7 @@ public class EstadoJuego extends Estado{
             BufferedImage textura =Assets.meteoros[(int)(Math.random()*Assets.meteoros.length)];
             listObjetosMovibles.add(new Meteoro(
                     new Vector2D(x,y),
+                    //setdireccion cambia las cordenadas en x y y dependiendo del angulo
                     new Vector2D(0,1).setDirection(Math.random()*Math.PI*2), 
                     Constante.METEOR_VEL*Math.random()+1,
                     textura,

@@ -24,6 +24,8 @@ public class Bala extends MovedObject {
     }
     
     
+    
+    //
      @Override
     public void update() {
         posicion=posicion.add(velocidad);

@@ -88,14 +88,18 @@ public class Player extends MovedObject{
         if(Teclado3.izquierda)
             angulo-=Constante.ROTATIONANGLE;
         if(Teclado3.arriba){
+            //da recoorrido segun la constante aceleracion ya
+            //que se multiplica al vector un escalar por cada componente
             aceleracion= heading.scale(Constante.ACC);
             isAcelerando=true;
         }else{
             isAcelerando=false;
             //si la aceleracion y la velocidad tiene el mismo signo en el mismo eje cordenado estamos
             //acelerando si son diferentes estamos frenando osea que no se presiono tecla arriba
+            //debemos asegurarnos que la nave se quede quieta cuando no se presiona que el vector aceleracion baje
             if(velocidad.MagnitudVector()!=0){
                 aceleracion=(velocidad.scale(-1).vector_unitario()).scale(Constante.ACC /2);
+                
             }
         }	
       
@@ -104,8 +108,7 @@ public class Player extends MovedObject{
         velocidad =velocidad.add(aceleracion);
         //limitamos la velocidad 
         velocidad=velocidad.limit(maxVel);
-        //como la nave empieza en 90 grados se le resta pI/2=90
-        //hace refernecia a la cabeza de la nave
+        //hace referencia a actualizar las posiciones en x y en y cuando la nave esta rotando
         heading=heading.setDirection(angulo - Math.PI/2);
         //la velocidad es el cambio de posicion con respecto
         //al tiempo por lo tanto cada photograma le sumariamos el vector velocidad

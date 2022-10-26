@@ -25,6 +25,8 @@ public class Teclado3 extends  KeyAdapter{
         izquierda=false;
         derecha=false;
         disparar=false;
+        pausar=false;
+        seguir=false;
         
     }
     
@@ -38,11 +40,13 @@ public class Teclado3 extends  KeyAdapter{
         derecha=teclas[KeyEvent.VK_RIGHT];
         disparar=teclas[KeyEvent.VK_SPACE];
         pausar=teclas[KeyEvent.VK_P];
-        seguir=teclas[KeyEvent.VK_D];
+        seguir=teclas[KeyEvent.VK_F];
     }
     @Override
     public void keyPressed(KeyEvent e) {
         teclas[e.getKeyCode()]=true;
+        System.out.println(e.getKeyCode());
+        
     }
 
     @Override
